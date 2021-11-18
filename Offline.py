@@ -17,21 +17,21 @@ class Offline:
             index = self.level_best_time(self, call)
         else:
             for elev in self.building.elevators:  # if there isn't an elevator in level mode
-                if elev.state is -2:  # if error, pass
+                if elev.state == -2:  # if error, pass
                     i += 1
                     continue
-                if elev.state is not 0:  # not in level mode
+                if elev.state != 0:  # not in level mode
                     if elev.type is not call.type:  # if the elevator is going up and the call is down-> continue, vice versa
                         i += 1
                         continue
-                    if elev.type is 1 and call.type is 1:  # UP
+                    if elev.type == 1 and call.type == 1:  # UP
                         if elev.max_floor < call.dest:
                             i += 1
                             continue
                         if elev.min_floor > call.src:
                             i += 1
                             continue
-                    if elev.type is -1 and call.type is -1:  # DOWN
+                    if elev.type == -1 and call.type == -1:  # DOWN
                         if elev.max_floor < call.src:
                             i += 1
                             continue
@@ -60,7 +60,7 @@ class Offline:
 
     def contains_level(self) -> bool:
         for el in self.building.elevators:
-            if el.state is 0:
+            if el.state == 0:
                 return True
         return False
 
@@ -68,7 +68,7 @@ class Offline:
         i = 0
         min_time = 100000000
         for el in self.building.elevators:
-            if el.state is 0:
+            if el.state == 0:
                 temp_time = self.time_level_2_dest(el, call)
                 if temp_time < min_time:
                     min_time = temp_time

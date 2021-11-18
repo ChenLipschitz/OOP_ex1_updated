@@ -20,7 +20,7 @@ class Elevator:
         self.calls_list += [call]
 
     def current_state(self):
-        if len(self.calls_list) is 0:
+        if len(self.calls_list) == 0:
             self.state = 0
         if self.calls_list[0].dest - self.calls_list[0].src > 0:
             self.state = 1
