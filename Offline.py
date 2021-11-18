@@ -1,6 +1,8 @@
 import Building
 import math
 from Elevator import Elevator
+from Building import Building
+from Calls import Calls
 
 
 class Offline:
@@ -8,11 +10,11 @@ class Offline:
         self.building = building
         self.cl_list = cl_list
 
-    def allocated(self, call, indexs : list):
+    def allocated(self, call, indexs: list):
         index = 0  # default, num of elevator
         i = 0  # represents the index in the loop
         min_time = 100000000
-        if self.contains_level(self.building.elevators) is True:
+        if self.contains_level(self.building.elevators):
             # search for the elevator with the shortest arrive time and in level mode
             index = self.level_best_time(self, call)
         else:
@@ -76,7 +78,7 @@ class Offline:
             i += 1
         return index
 
-    def time_level_2_dest(elev, call):
+    def time_level_2_dest(elev: Elevator, call):
         distance = abs(call.dest - call.src)
         sum_start_stop_time = math.ceil(elev.start_time + elev.stop_time)
         sum_open_close_time = math.ceil(elev.open_time + elev.close_time)

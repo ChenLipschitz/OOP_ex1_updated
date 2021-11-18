@@ -1,14 +1,13 @@
 class Calls:
 
-    def __init__(self, timing, src, dest, ID):
-        self.timing = timing
-        self.src = src
-        self.dest = dest
-        self.ID = ID
+    def __init__(self, timing, src, dest):
+        self.timing = float(timing)
+        self.src = int(src)
+        self.dest = int(dest)
         self.num_of_elev = 0  # default
-        if self.dest - self.src > 0:
+        if (self.dest - self.src) > 0:
             self.type = 1  # UP
-        if self.dest - self.src < 0:
+        if (self.dest - self.src) < 0:
             self.type = -1  # DOWN
 
     def assign_elevator(self, num):
