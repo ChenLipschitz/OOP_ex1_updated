@@ -1,53 +1,52 @@
 import json
-import math
-import Offline
-import csv
-
-import Calls
 import Building
-import Elevator
-import pandas as pd
-
-    def _init(self, calls_file, building_file):
-        calls_file = open(calls_file)
+import csv
+import Offline
 
 
- # load a csv file to the program
-    def load_from_file(file_name: str):
-     try:
-         with open(file_name, "r") as file:
-                 config = json.loads(file)
-                 build = Building(config["_minFloor"], config["_maxFloor"], config["_elevators"])
-                 return build
-     except IOError as e:
-             print(e)
+ # load a json file to the program
+from Calls import Calls
+
+
+def load_json_file(file_name: str):
+    try:
+        with open(file_name, "r") as file:
+            config = json.loads(file)
+            build = Building(config["_minFloor"], config["_maxFloor"], config["_elevators"])
+            return build
+    except IOError as e:
+            print(e)
+
+def load_csv_file(csv_name):
+    list=[]
+    try:
+        with open(csv_name) as csv_file:
+            calls_reader = csv.reader(csv_file)
+            for line in calls_reader:
+                call = Calls(line[2],line[3])
+                Offline.allocated(call,list)
+        extract_back_to_csv(list,csv_name)
+    except IOError as e:
+            print(e)
+
+
+def extract_back_to_csv(calls_list, name):
+    """ extract CallForElevator list as new csv file, with updated allocated elev column """
+    f = open(name, "w")  # name of assigned calls csv
+    for y in range(0, len(calls_list) - 1):
+        str_c = str(calls_list[y])
+        f.write(str_c + "\n")
+    str_c = str(calls_list[len(calls_list) - 1])  # last line without \n
+    f.write(str_c)
+    f.close()
+def main():
+    if __name__ == "__main__":
+        algo = my_algo(r"B2.json", r"Calls_a.csv")
+        algo.updateFile("output.csv")
 
 
 
- def main():# change the folder path to file name
-     count = 1
-     flag = True
-     df = pd.read_csv(r"Calls_a.csv", header = None)
-     print(df)
-      df['time_dif_next_elv'] = df[1].diff()
-      list_time = df['time_dif_next_elv']
-      if flag == True:
-          time.sleep(df.loc[0][1])
-          allocate_elev(df[2][0],df[3][0])
-          flag = False
-      if flag == False:
-          for count in len(df[0]):
-              time.sleep(list_time[count])
-              currentPosition(df[1].diff()[count])
-              allocate_elev(df[2][count],df[3][count])
-              count += 1
-      print(list_time[1])
 
 
 
-
-
-if __name__ == "__main__":
-    algo = my_algo(r"B2.json", r"Calls_a.csv")
-    algo.updateFile("output.csv")
 

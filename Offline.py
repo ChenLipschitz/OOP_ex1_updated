@@ -1,6 +1,6 @@
 import Building
 import math
-import Elevator
+from Elevator import Elevator
 
 
 class Offline:
@@ -8,7 +8,7 @@ class Offline:
         self.building = building
         self.cl_list = cl_list
 
-    def allocated(self, call):
+    def allocated(self, call, indexs : list):
         index = 0  # default, num of elevator
         i = 0  # represents the index in the loop
         min_time = 100000000
@@ -49,6 +49,7 @@ class Offline:
                         index = i
                 i += 1
         elev.calls_list.add(call)
+        indexs.append(index)
         return index
 
     def total_distance_floors(elev: Elevator) -> int:
