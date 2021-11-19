@@ -1,4 +1,4 @@
-from Elevator import elevator
+from Elevator import Elevator
 from Building import Building
 from Calls import Calls
 import math
@@ -12,36 +12,18 @@ class Offline:
         self.cl_list = Preprocessing.readCsv(callsfile)
 
     def assignElevators(self, call):
-        choosenelev = None
+        optElev = None
         minTimeToArrive = float("inf")
-        tmpTime = 10000
-        for elev in self._building._elevators_list:
-            tmpTime = self._CalcluateTimeToArrive(elev, call)
-            if tmpTime < minTimeToArrive:
-                minTimeToArrive = tmpTime
-                choosenelev = elev
-        elevid = choosenelev.getID()
+        for elev in self._building.elevators_list:
+            optTime = self.calcluateTimeToArrive(elev, call)
+            if optTime < minTimeToArrive:
+                minTimeToArrive = optTime
+                optElev = elev
+        elevid = optElev.getID()
         call.setElevator(elevid)
-        choosenelev.UpdateListOfCalls(call)
+        optElev.UpdateListOfCalls(call)
 
-    def _CalcluateTimeToArrive(self, elev, call):
-        def checkIfLegal(elev, call):
-            if elev.getState() == -2:  # if error, pass
-                return False
-            elif elev.getState() != 0:  # not in level mode
-                if elev.getState() != call.getType():
-                    return False
-            elif elev.getState() == 1 and call.getType() == 1:  # UP
-                if elev.minFloor > call.src and elev.maxFloor < call.dest:
-                    return False
-                else:
-                    return True
-            if elev.getState() == -1 and call.getType() == -1:  # DOWN
-                if elev.maxFloor < call.src and elev.minFloor > call.dest:
-                    return False
-                else:
-                    return True
-
+    def calcluateTimeToArrive(self, elev, call):
         def total_distance_floors(elev):
             total = 0
             for cl in elev.call_list:
@@ -84,27 +66,22 @@ class Offline:
             return float("inf")
 
 
-    def updateFile(self, file_name="Ex1_Calls") -> None:
-        # if the number of elevator is 0 then dont change the file and save it as it is
+    def updateEntries(self, file_name):
+        ELEVATOR_INDEX = 5
+        cl_list = []
+        i = 0
         if len(self._building._elevators_list) == 0:
             Preprocessing.saveToCsv(file_name, self.cl_list)
-            return
-        # if the number of elevator is 1 then change the last column of the all the calls to 0,
-        # meaning send all the calls to elevator 0 and then save the array of calls to a new fil
-        elif len(self._building._elevators_list) == 1:
+            return 1
+        elif len(self._building._elevators_list) == 1:   # if the building has one elevator, allocate this elevator to each call
             for call in self.cl_list:
                 call[5] = 0
             Preprocessing.saveToCsv(file_name, self.cl_list)
-            return
-        cl_list = []
+            return 1
         for call in self.cl_list:
-            call_obj = Calls(_callTime=call[1], _src=call[2], _dest=call[3])
-            cl_list.append(call_obj)
-            self.assignElevators(call_obj)
-        index = 0
-        for call in self.cl_list:
-            call_obj = cl_list[index]
-            call[5] = Calls.allocatedTo(call_obj)
-            index += 1
+            cl_list.append(Calls(_callTime=call[1], _src=call[2], _dest=call[3]))
+            self.assignElevators(Calls(_callTime=call[1], _src=call[2], _dest=call[3]))
+            call[ELEVATOR_INDEX] = Calls.allocatedTo(cl_list[i])
+            i += 1
         Preprocessing.saveToCsv(file_name, self.cl_list)
-        return
+        return 1
