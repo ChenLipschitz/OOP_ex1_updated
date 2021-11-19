@@ -11,7 +11,7 @@ class Offline:
                                   _elevators=self.building_df["_elevators"])
         self.cl_list = Preprocessing.readCsv(callsfile)
 
-    def allocated(self, call):
+    def assignElevators(self, call):
         choosenelev = None
         minTimeToArrive = float("inf")
         tmpTime = 10000
@@ -100,7 +100,7 @@ class Offline:
         for call in self.cl_list:
             call_obj = Calls(_callTime=call[1], _src=call[2], _dest=call[3])
             cl_list.append(call_obj)
-            self.allocated(call_obj)
+            self.assignElevators(call_obj)
         index = 0
         for call in self.cl_list:
             call_obj = cl_list[index]
