@@ -30,7 +30,7 @@ To run the program via cmd:
 java -jar Ex1_checker_V1.2_obf.jar 1111,2222,3333 B2.json Ex1_Calls_case_2_b.csv out.log
 
 ## **The class:**
-![image](https://user-images.githubusercontent.com/94145486/142739853-c5bdf418-e5bf-46da-9cd3-8d73c0bb9f6f.png)
+![image](https://user-images.githubusercontent.com/94145486/142739902-51480e13-f4f9-4663-8bd2-82da56036855.png)
 
 ## **The Results – avg time pair call :**
 ![image](https://user-images.githubusercontent.com/94145486/142739864-0a6bc69e-ba91-43c9-9256-559cc80334cd.png)
