@@ -35,9 +35,9 @@ class Elevator:
     def getState(self):
         if len(self.call_list) == 0:
             return 0
-        if self.call_list[len(self.call_list) - 1].getType() is Calls.UP:
+        if self.call_list[len(self.call_list) - 1].getType()  == 1:
             return 1
-        elif self.call_list[len(self.call_list) - 1].getType() is Calls.DOWN:
+        elif self.call_list[len(self.call_list) - 1].getType() == -1:
             return -1
         return 0
 
