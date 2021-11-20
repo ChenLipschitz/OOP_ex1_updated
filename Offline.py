@@ -1,5 +1,4 @@
 
-from Elevator import Elevator
 from Building import Building
 from Calls import Calls
 import math
@@ -14,22 +13,31 @@ class Offline:
 
     def assignElevators(self, call):
         optElev = None
-        minTimeToArrive = float("inf")
+        minTime = float("inf")
         for elev in self._building.elevators_list:
-            optTime = self.calcluateTimeToArrive(elev, call)
-            if optTime < minTimeToArrive:
-                minTimeToArrive = optTime
+            optTime = self.timeForService(elev, call)
+            if optTime < minTime:
+                minTime = optTime
                 optElev = elev
-        elevid = optElev.getID()
-        call.setElevator(elevid)
+        numElev = optElev.id
+        call.setElevator(numElev)
         optElev.UpdateListOfCalls(call)
 
-    def calcluateTimeToArrive(self, elev, call):
+    def timeForService(self, elev, call):
         def total_distance_floors(elev):
             total = 0
             for cl in elev.call_list:
                 total = total + abs(cl.dest - cl.src)
             return total
+
+        def calcTotal():
+            num_of_calls = len(elev.call_list)
+            sum_distance = total_distance_floors(elev)
+            total_open_close = (num_of_calls * (elev.open_time + elev.close_time))
+            total_start_stop = (num_of_calls * (elev.start_time + elev.stop_time))
+            ride_time = math.ceil(sum_distance * elev.time_per_floor)
+            temp_time = total_start_stop + total_open_close + ride_time
+            return temp_time
 
         if elev.getState() == 0:
             distance = abs(call.dest - call.src)
@@ -43,41 +51,29 @@ class Offline:
             if elev.minFloor > call.src and elev.maxFloor < call.dest:
                 temp_time = float("inf")
             else:
-                num_of_calls = len(elev.call_list)
-                sum_distance = total_distance_floors(elev)
-                total_open_close = (num_of_calls * (elev.open_time + elev.close_time))
-                total_start_stop = (num_of_calls * (elev.start_time + elev.stop_time))
-                ride_time = math.ceil(sum_distance * elev.time_per_floor)
-                temp_time = total_start_stop + total_open_close + ride_time
+                temp_time = calcTotal()
             return temp_time
 
         if elev.getState() == -1:
             if elev.maxFloor < call.src and elev.minFloor > call.dest:
                 temp_time = float("inf")
             else:
-                num_of_calls = len(elev.call_list)
-                sum_distance = total_distance_floors(elev)
-                total_open_close = (num_of_calls * (elev.open_time + elev.close_time))
-                total_start_stop = (num_of_calls * (elev.start_time + elev.stop_time))
-                ride_time = math.ceil(sum_distance * elev.time_per_floor)
-                temp_time = total_start_stop + total_open_close + ride_time
+                temp_time = calcTotal()
             return temp_time
 
         else:
             return float("inf")
 
-
     def updateEntries(self, file_name="Ex1_Calls"):
-        ELEVATOR_INDEX = 5
+        cl_list = []
         if len(self._building._elevators_list) == 0:
             Preprocessing.saveToCsv(file_name, self.cl_list)
-            return
+            return 1
         elif len(self._building._elevators_list) == 1:
             for call in self.cl_list:
                 call[5] = 0
             Preprocessing.saveToCsv(file_name, self.cl_list)
-            return
-        cl_list = []
+            return 1
         for call in self.cl_list:
             call_obj = Calls(_callTime=call[1], _src=call[2], _dest=call[3])
             cl_list.append(call_obj)
@@ -87,7 +83,7 @@ class Offline:
             call[5] = Calls.allocatedTo( cl_list[ELEVATOR_INDEX])
             ELEVATOR_INDEX += 1
         Preprocessing.saveToCsv(file_name, self.cl_list)
-        return
+        return 1
 
 
 
