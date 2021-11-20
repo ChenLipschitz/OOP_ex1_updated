@@ -21,7 +21,7 @@ Out of the above conditions we will select the elevator that will reach it's sou
 
 The articles above inspired us and provided all the required information about elevators and its algorithm for this project.
 
-## **How to run the program on your own computer**
+## **How to run the program:**
 To run the program in the SDE:
 Download the files above, change in the Ex1.Tester, in the main method, to the relevant building json file and the calls csv file and run. 
 A csv file with the allocated elevators (the results) will be created after runnig the program and added to the directory. 
