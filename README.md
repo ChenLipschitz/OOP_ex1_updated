@@ -20,3 +20,11 @@ Out of the above conditions we will select the elevator that will reach it's sou
 * https://www.researchgate.net/publication/331475872_Smart_Building's_Elevator_with_Intelligent_Control_Algorithm_based_on_Bayesian_Networks
 
 The articles above inspired us and provided all the required information about elevators and its algorithm for this project.
+
+## **How to run the program on your own computer**
+To run the program in the SDE:
+Download the files above, change in the Ex1.Tester, in the main method, to the relevant building json file and the calls csv file and run. 
+A csv file with the allocated elevators (the results) will be created after runnig the program and added to the directory. 
+
+To run the program via cmd:
+java -jar Ex1_checker_V1.2_obf.jar 1111,2222,3333 B2.json Ex1_Calls_case_2_b.csv out.log
