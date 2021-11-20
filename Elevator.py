@@ -1,10 +1,6 @@
 from Calls import Calls
 
-class elevator():
-    UP = 1
-    LEVEL = 0
-    DOWN = -1
-    ERROR = -2
+class Elevator:
 
     def __init__(self, _id, _speed, _minFloor, _maxFloor, _closeTime, _openTime,_startTime, _stopTime):
         self.id = _id
@@ -17,7 +13,6 @@ class elevator():
         self.start_time = _startTime
         self.stop_time = _stopTime
         self.call_list = []
-
 
     def UpdateListOfCalls(self, call):
         print(self.call_list)
@@ -35,20 +30,16 @@ class elevator():
     def getMaxFloor(self):
         return (int)(self.maxFloor)
 
-    def gettimeForOpen(self):
-        return (float)(self.openTime)
 
-    def gettimeForClose(self):
-        return (float)(self.closeTime)
 
     def getState(self):
         if len(self.call_list) == 0:
-            return self.LEVEL
+            return 0
         if self.call_list[len(self.call_list) - 1].getType() is Calls.UP:
-            return self.UP
+            return 1
         elif self.call_list[len(self.call_list) - 1].getType() is Calls.DOWN:
-            return self.DOWN
-        return self.LEVEL
+            return -1
+        return 0
 
 
     def getStartTime(self):
@@ -57,8 +48,3 @@ class elevator():
     def getStopTime(self):
         return (float)(self.stopTime)
 
-    def __str__(self):
-        return f"elevator number {self.id}: \n\t speed = {self.speed} \n\t minFloor = {self.minFloor} \n\t" \
-               f"maxFloor = {self.maxFloor} \n\t close time = {self.open_time} \n\t" \
-               f"open time = {self.open_time} \n\t start time = {self.start_time} \n\t" \
-               f"stop time = {self.stop_time}"
