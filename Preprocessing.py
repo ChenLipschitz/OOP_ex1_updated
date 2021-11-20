@@ -4,7 +4,7 @@ import pandas as pd
 def saveToCsv(file_name, callsArray):
     df = pd.DataFrame(callsArray)
     df.to_csv(str(file_name), index=False)
-    print(df)
+    #print(df)
 
 
 def readCsv(file_name):
