@@ -1,12 +1,7 @@
 import Elevator
 
 class Calls:
-    INIT = 0
-    GOING2SRC = 1
-    GOIND2DEST = 2
-    DONE = 3
-    UP = 1
-    DOWN = -1
+
 
     def __init__(self, _callTime, _src, _dest):
         self._callTime = _callTime
@@ -25,8 +20,8 @@ class Calls:
 
     def getType(self):
         if self.src > self.dest:
-            return self.DOWN
-        return self.UP
+            return -1
+        return 1
 
     def setElevator(self, index):
         self._assignedEle = index
