@@ -3,7 +3,7 @@ import pandas as pd
 
 def saveToCsv(file_name, callsArray):
     df = pd.DataFrame(callsArray)
-    df.to_csv(str(file_name), index=False)
+    df.to_csv(str(file_name), index=False, header=False)
     #print(df)
 
 
