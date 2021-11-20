@@ -15,36 +15,14 @@ class Elevator:
         self.call_list = []
 
     def UpdateListOfCalls(self, call):
-        print(self.call_list)
         self.call_list.append(call)
-
-    def getID(self):
-        return (int)(self.id)
-
-    def getSpeed(self):
-        return (float)(self.speed)
-
-    def getMinFloor(self):
-        return (int)(self.minFloor)
-
-    def getMaxFloor(self):
-        return (int)(self.maxFloor)
-
-
 
     def getState(self):
         if len(self.call_list) == 0:
             return 0
-        if self.call_list[len(self.call_list) - 1].getType()  == 1:
+        if self.call_list[len(self.call_list) - 1].getType() == 1:
             return 1
         elif self.call_list[len(self.call_list) - 1].getType() == -1:
             return -1
         return 0
-
-
-    def getStartTime(self):
-        return (float)(self.startTime)
-
-    def getStopTime(self):
-        return (float)(self.stopTime)
 
