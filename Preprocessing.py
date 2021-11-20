@@ -3,7 +3,8 @@ import pandas as pd
 
 def saveToCsv(file_name, callsArray):
     df = pd.DataFrame(callsArray)
-    df.to_csv(str(file_name))
+    df.to_csv(str(file_name), index=False)
+    print(df)
 
 
 def readCsv(file_name):
@@ -11,7 +12,6 @@ def readCsv(file_name):
     rows = []
     for index, row in df.iterrows():
         rows.append(list(row))
-    print(rows)
     return rows
 
 
